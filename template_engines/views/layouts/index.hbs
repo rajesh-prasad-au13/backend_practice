@@ -7,12 +7,8 @@
     <title>{{title}}</title>
 </head>
 <body>
-    <a href="http://localhost:3000/signup">ADD USERS</a>
-    <ul>
-        {{#each users}}
-            <li>{{this.name}}</li>
-            <li>{{this.email}}</li>
-        {{/each}}
-    </ul>
+    {{!-- three curly braces for raw data --}}
+    {{{body}}}     
+    
 </body>
 </html>

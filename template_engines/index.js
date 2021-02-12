@@ -4,6 +4,10 @@ const path = require('path')
 const bodyparser = require('body-parser')
 const users = []
 
+const layout = path.join('layouts','index')
+
+app.set('views',path.join(__dirname,'views'))
+
 app.set('view engine','hbs');       //setting up template engine
 app.use(express.static(path.join(__dirname,'assests')));    //hosting static files
    
@@ -32,7 +36,7 @@ app.use(bodyparser.urlencoded({extended:true}))     //parses req info and put it
 
 
 app.get('/home',(req,res) => {
-    const homeFilePath = path.join(__dirname,'home.hbs')
+    const homeFilePath = path.join(__dirname,'home.hbs')    //not inside views folder so giving fullpath
     const data = {
         isLoggedIn: true,
         name:"Rajesh",
@@ -47,26 +51,26 @@ app.get('/home',(req,res) => {
 })
 
 app.get('/signup',(req,res) => {
-    const signingFilePath = path.join(__dirname,'signup.hbs')
     const data = {
+        layout,
         name: '',
         email: '',
         address: ''
       }
-    res.render(signingFilePath,data);
+    res.render('signup',data);      //.hbs extension is not required
 })
 
 app.post('/signup-post',(req,res) => {
     console.log(req.body);
     const error = {}
-    const signUPFilePath = path.join(__dirname,'signup.hbs')
     const data = {
+        layout,
         title:"SignUP",
         ...req.body
     }
     if(!req.body.name){
         error.name = 'Please Enter Name'
-        res.render(signUPFilePath,{...data,error})
+        res.render('signup.hbs',{...data,error})    //.hbs extension is not required
         return
     }
     users.push(req.body);
@@ -79,12 +83,12 @@ app.post('/signup-post',(req,res) => {
 // })
 
 app.get('/users', (req,res)=>{
-    const userPath = path.join(__dirname,'users.hbs')
     const data = {
+        layout,
         title:'user-Listing',
         users
     }
-    res.render(userPath,data)
+    res.render('users',data)   //.hbs extension is not required bcz our express will directly look into views folder
 })
 
 app.get('/users/:userId/abc/:type?',(req,res) => {
