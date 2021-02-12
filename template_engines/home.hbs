@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{title}}</title>
+
+    <link rel="stylesheet" href="./css/home.css">   
+    {{!-- <link rel="stylesheet" href="http://localhost:3000/css/home.css">    will work --}}
+    {{!-- <link rel="stylesheet" href="/css/home.css">    will work
+    <link rel="stylesheet" href="css/home.css"> will work
+    <link rel="stylesheet" href="assests/css/home.css"> will NOT work --}}
+
+    {{!-- <link rel="stylesheet" href="http://localhost:3000/assests/css/home.css"> --}}
+    {{!-- dont include assests folder in above link --}}
+    
+</head>
+<body>
+    <h1>Welcome to Home</h1>
+
+    {{!-- if and else condition in html --}}
+    {{#if isLoggedIn}}
+        <h1>Hello {{name}}</h1>
+    {{else}}
+        <h1>Please SignUp first</h1>
+    {{/if}}
+
+
+    {{!-- interating thorugh each element in html --}}
+    <ul class="people_list">
+        {{#each people}}
+            <li>{{this}}</li>
+        {{/each}}
+    </ul>
+
+</body>
+</html>
+
+{{!-- hbs files are rendered as HTML files during runtime --}}
