@@ -1,16 +1,34 @@
 const express = require('express')
 const app = express()
 const path = require('path')
-const bodyparser = require('body-parser')
+const bodyparser = require('body-parser') 
 const users = []
 
-const layout = path.join('layouts','index')
+//multer setup for uploading files
+const multer = require('multer')
+const  diskstorage = multer.diskStorage({
+    destination: function(req,file,callback){
+        callback(null,path.join(__dirname,'uploads'))
+    },
+    
+    filename: function name(req,file,callback){
+        //console.log(file)
+        callback(null,file.fieldname+'-'+Date.now()+path.extname(file.originalname));
+    }
+});
+const upload = multer({ storage: diskstorage});
+//var upload = multer({ dest: 'uploads/' })
 
+
+
+const layout = path.join('layouts','index')
 app.set('views',path.join(__dirname,'views'))
+
 
 app.set('view engine','hbs');       //setting up template engine
 app.use(express.static(path.join(__dirname,'assests')));    //hosting static files
-   
+app.use(express.static(path.join(__dirname,'uploads')));   
+
 app.use(bodyparser.json())      //parses req info and put it into req.body
 app.use(bodyparser.urlencoded({extended:true}))     //parses req info and put it into req.body
 
@@ -52,18 +70,20 @@ app.get('/home',(req,res) => {
 
 app.get('/signup',(req,res) => {
     const data = {
+        users,
         layout,
         name: '',
         email: '',
         address: ''
       }
-    res.render('signup',data);      //.hbs extension is not required
+    res.render('signup.hbs',data);      //.hbs extension is not required
 })
 
-app.post('/signup-post',(req,res) => {
+app.post('/signup-post', upload.single('profileImage'), (req,res) => {
     console.log(req.body);
     const error = {}
     const data = {
+        users,
         layout,
         title:"SignUP",
         ...req.body
@@ -74,7 +94,7 @@ app.post('/signup-post',(req,res) => {
         return
     }
     users.push(req.body);
-    res.redirect('/users')
+    res.redirect('/signup')
 })
 
 // app.get('/users',(req,res) => {

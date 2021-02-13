@@ -1,14 +1,23 @@
     <link rel="stylesheet" href="./css/signup.css">
-    <form action="/signup-post" method='post'>
-        <label for="">
+    <form action="/signup-post" method='post' enctype="multipart/form-data">
+        <label for="userName">
             Name: <input type="text" name="name" id="userName" value={{name}}>
         </label>
         <span>{{error.name}}</span>
-        <label for="">
+        <label for="userEmail">
             Email: <input type="email" name="email" id="userEmail" value={{email}}>
         </label>
-        <label for="">
+        <label for="userAddress">
             Address: <input type="text" name="address" id="userAddress" value={{address}}>
         </label>
+        <label for="userProfile">
+           Image<input type="file" name="profileImage" id="userProfile">
+        </label>
         <button type="submit">Submit</button>
+        <ul>
+            {{#each users}}
+                <li>{{this.name}}</li>
+                <li>{{this.email}}</li>
+            {{/each}}
+        </ul>
     </form>
