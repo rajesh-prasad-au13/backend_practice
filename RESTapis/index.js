@@ -16,6 +16,25 @@ app.get('/api/users',(req,res) => {
     })
 })
 
+//Getting a single user data on basis of id
+app.get('/api/users/:id', (req,res) => {
+    let isUserPresent = users.filter(user => user.id == req.params.id)
+    console.log(isUserPresent,isUserPresent[0])
+    let message = 'User fetched';
+    let status = 200
+    if (!isUserPresent.length){
+        message = "No such User",
+        status = 404
+    }
+    else{
+        data = isUserPresent[0]
+    }
+    res.status(status).json({ 
+        data: data, 
+        message
+    })
+})
+
 //POST request
 app.post('/api/users', (req,res) => {
     ++userCount;
